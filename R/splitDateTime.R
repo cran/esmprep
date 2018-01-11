@@ -49,22 +49,22 @@
 #' # Applying function to reference dataset (7a of 28)
 #' referenceDfList <- splitDateTime(referenceDfNewDT, "REF", RELEVANTINFO_ES, RELEVANTVN_ES,
 #' RELEVANTVN_REF)
-#'
+#' 
 #' # Extract reference dataset from output
 #' referenceDfNew <- referenceDfList[["refOrEsDf"]]
 #' names(referenceDfNew)
-#'
+#' 
 #' # Extract extended list of relevant variables names of reference dataset
 #' RELEVANTVN_REF <- referenceDfList[["extendedVNList"]]
-#'
+#' 
 #' # Applying function to raw ESM dataset(s) (7b of 28)
 #' # keyLs is the result of function 'genKey'.
 #' keyList <- splitDateTime(keyLsNewDT, "ES", RELEVANTINFO_ES, RELEVANTVN_ES,
 #' RELEVANTVN_REF)
-#'
+#' 
 #' # Extract list of raw ESM datasets from output
 #' keyLsNew <- keyList[["refOrEsDf"]]
-#'
+#' 
 #' # Extract extended list of relevant variables names of raw ESM datasets
 #' RELEVANTVN_ES <- keyList[["extendedVNList"]]
 #' # o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o
@@ -111,17 +111,9 @@ splitDateTime <- function(refOrEsDf=NULL, refOrEs = NULL, RELEVANTINFO_ES = NULL
 
     } else {
 
-        # If event sampling is only one data frame, go on also checking whether it
-        # is of tpye data.frame
-        if(length(RELEVANTINFO_ES[["SVYNAMES"]]) == 1) {
-            if(!is.data.frame(refOrEsDf)) {
-                stop("The argument 'refOrEsDf' must be of type data.frame.")
+		if(!is.list(refOrEsDf) & all(sapply(refOrEsDf, is.data.frame))) {
+        		stop("The argument 'refOrEsDf' must be of type list, each element of the list must be of type data.frame.")
             }
-        } else {
-            if(!is.list(refOrEsDf) & all(sapply(refOrEsDf, is.data.frame))) {
-                stop("The argument 'refOrEsDf' must be of type list, each element of the list must be of type data.frame.")
-            }
-        }
 
         esList <- list()
         esListNames <- RELEVANTINFO_ES[["SVYNAMES"]]
@@ -138,5 +130,4 @@ splitDateTime <- function(refOrEsDf=NULL, refOrEs = NULL, RELEVANTINFO_ES = NULL
         # esList
         list(refOrEsDf = esList, extendedVNList=dateTimeEndDf[["extendedVariableNameList"]])
     }
-
 }

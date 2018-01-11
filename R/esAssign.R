@@ -454,7 +454,11 @@ esAssign <- function(esDf, refDf, RELEVANTINFO_ES = NULL, RELEVANTVN_ES = NULL, 
 
             CV_ES <- c(CV_ES, cvOverall_temp)
 
-            CV_ESDAY <- c(CV_ESDAY, cv_esunit)
+            if(midnightPrompt) {
+				CV_ESDAY <- c(CV_ESDAY, cv_esunit)
+			} else {
+				CV_ESDAY <- c(CV_ESDAY, day_temp $ esDay)
+			}
 
             CV_ESWEEKDAY <- c(CV_ESWEEKDAY, day_temp $ weekDay)
 
