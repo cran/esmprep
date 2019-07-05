@@ -6,7 +6,7 @@
 \usage{
 esAssign(esDf, refDf, RELEVANTINFO_ES = NULL, RELEVANTVN_ES = NULL,
   RELEVANTVN_REF = NULL, singlePerson = NULL, prompted = NULL,
-  promptTimeframe = NULL, midnightPrompt = FALSE, dstDates = NULL)
+  promptTimeframe = 30, midnightPrompt = FALSE, dstDates = NULL)
 }
 \arguments{
 \item{esDf}{a data.frame. A single ESM dataset. It must contain the 2 columns that hold the date-time object for when an ESM questionnaire was started and finished, respectively.}
@@ -23,7 +23,7 @@ esAssign(esDf, refDf, RELEVANTINFO_ES = NULL, RELEVANTVN_ES = NULL,
 
 \item{prompted}{logical. If there was no prompt per ESM day at all, enter FALSE; else ignore this argument, meaning that per default at least one prompt per ESM day is assumed.}
 
-\item{promptTimeframe}{a numeric value. If there was a time frame, within which an ESM questionnaire ought to have been started, enter this timeframe in \strong{minutes}.}
+\item{promptTimeframe}{an integer value. The default value is 30, i.e. within "genDateTime" \strong{minutes} around each prompt a participant is expected to have answered the ESM questionnaire. This argument must be set to an integer value larger than 0, even if there was no prompt at all. If NA, NULL, 0 is passed to this argument, the function returns an error. If less than "genDateTime" minutes is passed to this argument, the function returns a warning message.}
 
 \item{midnightPrompt}{logical. Default FALSE, i.e. no participant was able to start a questionnaire around the midnight hour. However, if this was possible, set this argument to TRUE, in which case it takes the function \code{esAssign} a little longer to do its job, compared to midnightPrompt = FALSE.}
 
@@ -61,6 +61,7 @@ New columns in output list of function \code{esAssign} are
 \item DST. Dichotomous variable. The value 1 represents a questionnaire's date to be equal or later than the daylight saving date, as specified by the user.
 \item QWST. Dichotomous variable. The value 1 represents a questionnaire to be fully within the scheduled time, i.e. the time differences of both the actual start time and the actual end time are minimal relative to the same scheduled time.
 }
+Additionally, if the reference dataset contains any duplicates in the column representing the participant IDs, then \code{esAssign} stops and an error message is printed in the R console.
 }
 \examples{
 # o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o
@@ -75,7 +76,7 @@ RELEVANTVN_ES <- RELEVANTVN_ESext
 RELEVANTVN_REF <- RELEVANTVN_REFext
 # Prerequisites in order to execute esAssign. End -------------------
 # -------------------------------------------------------
-# Run function 16 of 28; see esmprep functions' hierarchy.
+# Run function 17 of 29; see esmprep functions' hierarchy.
 # -------------------------------------------------------
 # Assign questionnaires contained in the raw ESM dataset to all participants listed
 # in the reference dataset. esMerged1 is the result of function 'convertChars',
@@ -96,5 +97,5 @@ names(esAssigned)
 # o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o=o
 }
 \seealso{
-Exemplary code (fully executable) in the documentation of \code{\link{esmprep}} (function 16 of 28).
+Exemplary code (fully executable) in the documentation of \code{\link{esmprep}} (function 17 of 29).
 }
